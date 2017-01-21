@@ -15,7 +15,10 @@
   ],
   "web_accessible_resources": ["img/overlays/*.png"],
   "permissions": [
-    "tabs"
+    "tabs", "webRequest", "webRequestBlocking", "http://*/*", "https://*/*"
   ],
+  "background": {
+    "scripts": ["background.js"]
+  },
   "content_security_policy": "script-src 'self' https://westus.api.cognitive.microsoft.com; object-src 'self'"
 }
