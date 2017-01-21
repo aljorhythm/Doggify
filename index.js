@@ -6,26 +6,37 @@ dogifyLog('index.js');
 
 $(document).ready(function(){
     function sanitizeImgUrl(url){
-        if(url.indexOf("//") == 0)
+        if(url && url.indexOf("//") == 0)
             return "https:" + url
         return url
     }
-    function putPNGOnTop(params){
+    function overlayImage($imgContainer, face){
+        console.log(face)
+        var faceLandmarks = face['faceLandmarks']
+        var $overlayImg = $("<img>");
+        $overlayImg.attr('src',  chrome.extension.getURL('img/overlays/dog3.png'))
+            .css({
+                'position' : 'absolute',
+            }).load(function(){
+                var pic_real_width = this.width;   // Note: $(this).width() will not
+                var pic_real_height = this.height; // work for in memory images.
+                $imgContainer.append($overlayImg)
+            })
+    }
+    function putPNGsOnTop(params){
         var $originalImgContainer = $(params['original_img_container_selector'])
         var $img = $(params['original_img_selector'])
-        console.log($img)
         var imgUrl = sanitizeImgUrl($img.attr('src'))
-        console.log($(params['original_img_selector']))
-        console.log(imgUrl)
+        dogifyLog('URL from ' + params['original_img_selector'] + " : " + imgUrl)
         getFaceResults(imgUrl).then(function(faceResults){
-            console.log(faceResults)
-            var $overlayImg = $("<img>")
-                .attr('src',  chrome.extension.getURL('img/overlays/dog.png'))
-                .css({
-
-                })//.css(params['img_css'])
-            $originalImgContainer.append($overlayImg)
+            dogifyLog('Successful request to Cognition API')
+            dogifyLog(faceResults.length + ' faces')
+            faceResults.forEach(function(face, idx){
+                dogifyLog('Overlaying ' + (idx + 1) + '/' + faceResults.length)
+                overlayImage($originalImgContainer, face)
+            })
         }, function(err){
+            dogifyLog('getFaceResults() error')
             dogifyLog(err)
         })
     }
@@ -50,9 +61,10 @@ $(document).ready(function(){
     for(targetKey in targets){
         dogifyLog('doing ' + targetKey)
         try{
-            putPNGOnTop(targets[targetKey])
+            putPNGsOnTop(targets[targetKey])
         }catch(err){
-
+            dogifyLog('target error ' + targetKey)
+            dogifyLog(err)
         }
     }
 

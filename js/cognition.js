@@ -6,9 +6,7 @@ function getFaceResults(imgUrl){
             "returnFaceLandmarks": "true",
             "returnFaceAttributes": "",
         };
-        console.log(imgUrl)
-        console.log(typeof imgUrl)
-        if(typeof imgUrl == 'undefined'){
+        if(typeof imgUrl == 'undefined' || imgUrl == ""){
             return reject({"INVALID_URL" : imgUrl})
         }
         $.ajax({
