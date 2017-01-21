@@ -1,3 +1,6 @@
+var keys = Array("671cd53758654540ab4da9bd3e6366ef", "3c85b0920f504a498eb511269f0123b7");
+var keyIndex = Math.floor(Math.random()*keys.length);
+
 function getFaceResults(imgUrl){
     return new Promise(function(resolve, reject){
         var params = {
@@ -14,7 +17,7 @@ function getFaceResults(imgUrl){
             beforeSend: function(xhrObj){
                 // Request headers
                 xhrObj.setRequestHeader("Content-Type","application/json");
-                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","3c85b0920f504a498eb511269f0123b7");
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", getKey());
             },
             type: "POST",
             // Request body
@@ -25,4 +28,11 @@ function getFaceResults(imgUrl){
         .done(resolve)
         .fail(reject);
     })
+}
+
+function getKey() {
+ var key = keys[keyIndex]
+ keyIndex = (keyIndex+1)%keys.length
+ console.log("using " + key)
+ return key
 }
