@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+
+  "name": "Dogify",
+  "description": "Doggit",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": ["http://www.facebook.com/*", "https://*.facebook.com/*"],
+      "js": ["js/jquery.js", "index.js"]
+    }
+  ],
+  "web_accessible_resources": ["img/overlays/*.png"],
+  "permissions": [
+    "tabs"
+  ]
+}
