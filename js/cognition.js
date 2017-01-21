@@ -40,3 +40,10 @@ function getFaceResults(imgUrl){
         .fail(reject);
     })
 }
+
+function getKey() {
+ var key = keys[keyIndex]
+ keyIndex = (keyIndex+1)%keys.length
+ console.log("using " + key)
+ return key
+}
