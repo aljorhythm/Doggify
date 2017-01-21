@@ -6,12 +6,16 @@
   "version": "1.0",
   "content_scripts": [
     {
-      "matches": ["http://www.facebook.com/*", "https://*.facebook.com/*"],
-      "js": ["js/jquery.js", "index.js"]
+      "matches": [
+          "http://www.facebook.com/*",
+          "https://*.facebook.com/*",
+          "https://*.wikipedia.org/*"],
+      "js": ["js/jquery.js", "js/cognition.js", "index.js"]
     }
   ],
   "web_accessible_resources": ["img/overlays/*.png"],
   "permissions": [
-    "tabs"
-  ]
+    "tabs", "https://www.google.com*"
+  ],
+  "content_security_policy": "script-src 'self' https://westus.api.cognitive.microsoft.com; object-src 'self'"
 }
