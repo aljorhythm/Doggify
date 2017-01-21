@@ -6,6 +6,11 @@ function getFaceResults(imgUrl){
             "returnFaceLandmarks": "true",
             "returnFaceAttributes": "",
         };
+        console.log(imgUrl)
+        console.log(typeof imgUrl)
+        if(typeof imgUrl == 'undefined'){
+            return reject({"INVALID_URL" : imgUrl})
+        }
         $.ajax({
             url: "https://westus.api.cognitive.microsoft.com/face/v1.0/detect?" + $.param(params),
             beforeSend: function(xhrObj){
@@ -15,9 +20,9 @@ function getFaceResults(imgUrl){
             },
             type: "POST",
             // Request body
-            data: {
+            data: JSON.stringify({
                 url : imgUrl
-            },
+            }),
         })
         .done(resolve)
         .fail(reject);

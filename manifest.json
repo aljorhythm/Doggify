@@ -15,7 +15,7 @@
   ],
   "web_accessible_resources": ["img/overlays/*.png"],
   "permissions": [
-    "tabs", "https://www.google.com*"
+    "tabs"
   ],
   "content_security_policy": "script-src 'self' https://westus.api.cognitive.microsoft.com; object-src 'self'"
 }

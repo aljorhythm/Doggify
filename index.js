@@ -5,15 +5,19 @@ function dogifyLog(obj){
 dogifyLog('index.js');
 
 $(document).ready(function(){
-
+    function sanitizeImgUrl(url){
+        if(url.indexOf("//") == 0)
+            return "https:" + url
+        return url
+    }
     function putPNGOnTop(params){
         var $originalImgContainer = $(params['original_img_container_selector'])
-        var imgUrl = $(params['original_img_selector']).attr('src')
+        var $img = $(params['original_img_selector'])
+        console.log($img)
+        var imgUrl = sanitizeImgUrl($img.attr('src'))
         console.log($(params['original_img_selector']))
         console.log(imgUrl)
-        var promise = getFaceResults(imgUrl)
-        console.log(promise)
-        promise.then(function(faceResults){
+        getFaceResults(imgUrl).then(function(faceResults){
             console.log(faceResults)
             var $overlayImg = $("<img>")
                 .attr('src',  chrome.extension.getURL('img/overlays/dog.png'))
@@ -21,6 +25,8 @@ $(document).ready(function(){
 
                 })//.css(params['img_css'])
             $originalImgContainer.append($overlayImg)
+        }, function(err){
+            dogifyLog(err)
         })
     }
 
@@ -35,12 +41,19 @@ $(document).ready(function(){
                 'width' : '30%'
             }
         },
-        wikipedia
+        wikipedia_main : {
+            original_img_selector : ".vcard tr:nth-child(2) .image img",
+            original_img_container_selector : ".vcard tr:nth-child(2) td a"
+        }
     }
 
     for(targetKey in targets){
         dogifyLog('doing ' + targetKey)
-        putPNGOnTop(targets[targetKey])
+        try{
+            putPNGOnTop(targets[targetKey])
+        }catch(err){
+
+        }
     }
 
 })
