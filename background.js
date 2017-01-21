@@ -14,3 +14,9 @@ chrome.webRequest.onHeadersReceived.addListener(function (details)
 },
 	["blocking", "responseHeaders"]
 );
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+	if (changeInfo.status === "complete") {
+		chrome.tabs.executeScript(null, {"file": "index.js"});
+	}
+});
