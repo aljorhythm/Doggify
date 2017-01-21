@@ -2,7 +2,30 @@ function dogifyLog(obj){
     console.log('DOGIFY', obj);
 }
 
+// forces val to be a number (defaultVal if specified if not 0)
+function forceInt(val, defaultVal){
+    defaultVal = defaultVal || 0;
+    if(typeof val == 'string'){
+        val = parseInt(val, 10)
+    }
+    if(typeof val == 'undefined' || val == null || isNaN(val)){
+        return defaultVal
+    }
+    return val
+}
+
 dogifyLog('index.js');
+
+var IMAGES = {
+    DOGS : [
+        chrome.extension.getURL('img/overlays/smartdog.png'),
+        chrome.extension.getURL('img/overlays/smartdalm.png')
+    ]
+}
+
+function getRandomDogImageURL(){
+    return IMAGES['DOGS'][Math.floor(Math.random() * IMAGES['DOGS'].length)]
+}
 
 $(document).ready(function(){
     function sanitizeImgUrl(url){
@@ -36,13 +59,23 @@ $(document).ready(function(){
         y = y * ($img.width() / $img[0].naturalWidth)
         height = height * naturalHeightRatio
 
-        dogifyLog('ratio : ' + ratio)
-        dogifyLog('display ratio : ' + naturalHeightRatio)
-        dogifyLog('x : ' + x)
-        dogifyLog('y : ' + y)
-        dogifyLog('height : ' + height)
+        // take into account parent border
+        var borderX = forceInt($imgContainer.css("border-left-width")) + forceInt($imgContainer.css("padding-left-width")) + forceInt($img.css("border-left-width")) + forceInt($img.css("padding-left-width"))
+        var borderY = forceInt($imgContainer.css("border-top-width")) + forceInt($imgContainer.css("padding-top-width")) + forceInt($img.css("border-top-width")) + forceInt($img.css("padding-top-width"))
+        x += borderX
+        y += borderY
 
-        $overlayImg.attr('src',  chrome.extension.getURL('img/overlays/dog.png'))
+        dogifyLog({
+            'ratio' : ratio,
+            'display ratio': naturalHeightRatio,
+            'x' : x,
+            'y' : y,
+            'border-x' : borderX,
+            'border-y' : borderY,
+            'height' : height
+        })
+
+        $overlayImg.attr('src', getRandomDogImageURL())
             .css({
                 'position' : 'absolute',
                 'top' : y + 'px',
@@ -50,14 +83,25 @@ $(document).ready(function(){
                 'height' : height,
                 'display' : 'none'
             })
+            .addClass('dogify-overlay')
             .on('load', function(){
                 $overlayImg.fadeIn(3000)
             })
+
+        // ensure position:absolute works
+        if($imgContainer.css('position') == 'static'){
+            $imgContainer.css('position', 'relative')
+        }
+
         $imgContainer.append($overlayImg)
     }
     function putPNGsOnTop(params){
         var $imgs = $(params['original_img_selector'])
-        $imgs.each(function(_, img){
+        dogifyLog($imgs.length + ' images found')
+        $imgs.each(function(idx, img){
+            if(params['limit'] && idx > params['limit']){
+                return
+            }
             var $img = $(img);
             var $originalImgContainer = $img.parent();
             var imgUrl = sanitizeImgUrl($img.attr('src'))
@@ -77,28 +121,34 @@ $(document).ready(function(){
     }
 
     var targets = {
-        facebook_profile : {
-            original_img_selector : ".profilePic.img"
+        "facebook.com/" : {
+            original_img_selector : ".profilePic.img, .stage img"
         },
-        facebook_verified_profile : {
-            original_img_selector : "",
-            original_img_container_selector : ""
+        "m.facebook.com/" : {
+            original_img_selector : "#MRoot img"
         },
-        wikipedia_main : {
+        "wikipedia.org" : {
             original_img_selector : ".vcard tr:nth-child(2) .image img:first-child"
         },
-        localhost_test : {
+        "localhost:8888" : {
             original_img_selector : ".imgContainer img"
+        },
+        "instagram.com" : {
+            original_img_selector : "main :not(header) > div img",
+            limit : 5
         }
     }
 
     for(targetKey in targets){
-        dogifyLog('doing ' + targetKey)
-        try{
-            putPNGsOnTop(targets[targetKey])
-        }catch(err){
-            dogifyLog('target error ' + targetKey)
-            dogifyLog(err)
+        dogifyLog('searching ' + targetKey + ' in ' + location.href)
+        if(location.href.indexOf(targetKey) >= 0){
+            dogifyLog('doing ' + targetKey)
+            try{
+                putPNGsOnTop(targets[targetKey])
+            }catch(err){
+                dogifyLog('target error ' + targetKey)
+                dogifyLog(err)
+            }
         }
     }
 

@@ -10,7 +10,8 @@
           "http://*.facebook.com/*",
           "https://*.facebook.com/*",
           "https://*.wikipedia.org/*",
-          "http://localhost:8888/temp.html"
+          "http://localhost:8888/temp.html",
+          "https://www.instagram.com/*"
       ],
       "js": ["js/jquery.js", "js/cognition.js", "index.js"]
     }

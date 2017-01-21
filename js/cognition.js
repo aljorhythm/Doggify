@@ -4,7 +4,7 @@ function getFaceResults(imgUrl){
             // Request parameters
             "returnFaceId": "true",
             "returnFaceLandmarks": "true",
-            "returnFaceAttributes": "",
+            "returnFaceAttributes": "headPose",
         };
         if(typeof imgUrl == 'undefined' || imgUrl == ""){
             return reject({"INVALID_URL" : imgUrl})
