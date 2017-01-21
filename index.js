@@ -65,11 +65,14 @@ $(document).ready(function(){
         x += borderX
         y += borderY
 
+        var rotation = 'rotateZ(' + face['faceAttributes']['headPose']['roll'] + 'deg) rotateY(' + face['faceAttributes']['headPose']['yaw'] + 'deg)'
+
         dogifyLog({
             'ratio' : ratio,
             'display ratio': naturalHeightRatio,
             'x' : x,
             'y' : y,
+            'rotation' : rotation,
             'border-x' : borderX,
             'border-y' : borderY,
             'height' : height
@@ -81,6 +84,7 @@ $(document).ready(function(){
                 'top' : y + 'px',
                 'left' : x + 'px',
                 'height' : height,
+                'transform' : rotation,
                 'display' : 'none'
             })
             .addClass('dogify-overlay')
