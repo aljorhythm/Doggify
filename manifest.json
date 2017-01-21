@@ -13,7 +13,7 @@
           "http://localhost:8888/temp.html",
           "https://www.instagram.com/*"
       ],
-      "js": ["js/jquery.js", "js/cognition.js", "index.js"]
+      "js": ["js/jquery.js", "js/cognition.js", "js/dogify.js", "index.js"]
     }
   ],
   "web_accessible_resources": ["img/overlays/*.png"],
