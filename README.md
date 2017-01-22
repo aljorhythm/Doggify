@@ -1,7 +1,5 @@
-# Hack&Roll 2017: Team 62
-Doggify is a Chrome extension going for the Most Annoying Hack category in Hack&Roll 2017.
-
-This Chrome extension subtly Doggify images with face.
+# Hack&Roll 2017: Doggify
+Doggify is a Chrome extension that utilizes the <b>state-of-the-art face detection</b> techniques and <b>intelligent image manipulation and stitching</b> that turns your friends into cute little puppies.
 
 ## Technology
 - Microsoft Cognitive Services (Face API)
