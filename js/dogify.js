@@ -9,7 +9,7 @@ var targets = {
         original_img_selector : ".imgContainer img"
     },
     "instagram.com" : {
-        original_img_selector : "main > section :not(header) > div > img",
+        original_img_selector : "main > section :not(header) > div > img, img[id]",
         scroll_listener : true
     }
 }
