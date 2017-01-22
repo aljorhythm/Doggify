@@ -1,6 +1,6 @@
 var targets = {
     "facebook.com/" : {
-        original_img_selector : ".profilePic.img, .mtm img, .spotlight"
+        original_img_selector : ".profilePic.img, .mtm img:not(.spotlight), img.spotlight"
     },
     "wikipedia.org" : {
         original_img_selector : ".vcard tr:nth-child(2) .image img:first-child"
@@ -120,20 +120,25 @@ function dogify(){
         var $imgs = $(params['original_img_selector'])
         dogifyLog($imgs.length + ' images found')
         // exclude marked imgs
-        $imgs.filter(':not(.dogified), :not(.dogify-attempted)').each(function(idx, originalImg){
+        $imgs.not('.dogified').not('.dogify-attempted').each(function(idx, originalImg){
             if(params['limit'] && idx > params['limit']){
                 return
             }
-            var $originalImg = $(originalImg).addClass('dogify-attempted')
+            var $originalImg = $(originalImg)
             var $originalImgContainer = $originalImg.parent()
             var imgUrl = sanitizeImgUrl($originalImg.attr('src'))
 
+            // should have excluded the overlay itself when .filtered(), doing hack to not do face detection for local images
+            // if(imgUrl.indexOf('chrome://') >= 0 || $originalImg.hasClass('dogified') || $originalImg.hasClass('dogify-attempted')){
+            //     return
+            // }
             dogifyLog('URL from ' + params['original_img_selector'] + " : " + imgUrl)
             dogifyLog($originalImg)
             dogifyLog('alt : ' + $originalImg.attr('alt'))
 
             var processFaceResults = function(faceResults){
                 dogifyLog('Successful request to Cognition API')
+                faceResults = faceResults || []
                 dogifyLog(faceResults.length + ' faces')
                 faceResults.forEach(function(face, idx){
                     dogifyLog('Overlaying ' + (idx + 1) + '/' + faceResults.length)
@@ -141,6 +146,7 @@ function dogify(){
                     // tag original image
                 })
             }
+            $originalImg.addClass('dogify-attempted')
             getFaceResults(imgUrl)
                 .then(
                     processFaceResults,
