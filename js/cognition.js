@@ -1,8 +1,7 @@
 var keys = [
 	"671cd53758654540ab4da9bd3e6366ef", // weikang
 	"3c85b0920f504a498eb511269f0123b7", // bernard
-	"48fbfc98af6d4e4caea1e34909c3647f", // joel
-	"240069313dc3460ba6d390bcc9f2046d"  // jingloon
+	"48fbfc98af6d4e4caea1e34909c3647f" // joel
 ];
 var keyIndex = Math.floor(Math.random() * keys.length);
 
