@@ -4,7 +4,8 @@ Doggify is a Chrome extension that utilizes the <b>state-of-the-art face detecti
 [Winner of Most Awesomely Useless Hack Prize](https://devpost.com/software/doggify)
 
 ## Demo
-Doggify [Justin Bieber](https://www.youtube.com/watch?v=KqfWDTk06uM&feature=youtu.be)
+Doggify Justin Bieber
+[![Justin Bieber](/docs/img/demo.png)](https://www.youtube.com/watch?v=KqfWDTk06uM) "Program in action")
 
 ## Technology
 - Microsoft Cognitive Services (Face API)
