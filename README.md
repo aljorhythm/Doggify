@@ -5,12 +5,22 @@ Doggify is a Chrome extension that utilizes the <b>state-of-the-art face detecti
 
 ## Demo
 Doggify Justin Bieber
-[![Justin Bieber](/docs/img/demo.png)](https://www.youtube.com/watch?v=KqfWDTk06uM) "Program in action")
+[![Justin Bieber](/docs/img/demo.png)](https://www.youtube.com/watch?v=KqfWDTk06uM "Program in action")
 
 ## Technology
+
 - Microsoft Cognitive Services (Face API)
 - jQuery
 - Chrome extension
+
+## Installation
+
+Clone this repo
+
+Sign up Microsoft's cognition [API](https://www.microsoft.com/cognitive-services/en-us/apis)
+Set keys in js/cognition.js
+
+![cognition.js](/docs/img/cognition.png)
 
 ## Team
 1. [Bernard](https://github.com/bernardyip)
